@@ -2,8 +2,7 @@ from flask import Flask, request, jsonify, abort
 from tictactoe import minimax,player,X,O,EMPTY,winner,terminal
 from errors import bad_request_error, not_found_error, method_not_allowed_error, internal_server_error
 
-app = Flask(__name__)
-app.config['SERVER_NAME'] = None
+app = Flask(__name__)   
 
 @app.route('/')
 def greet():
@@ -84,5 +83,3 @@ if __name__ == '__main__':
     app.register_error_handler(404, not_found_error)
     app.register_error_handler(405, method_not_allowed_error)
     app.register_error_handler(Exception, internal_server_error)
-    app.run(debug=True)
-
