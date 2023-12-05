@@ -10,13 +10,13 @@ O = "O"
 EMPTY = None
 
 
-def initial_state():
+def check_initial_state(board):
     """
-    Returns starting state of the board.
+    Returns wether state of the board of initial state.
     """
-    return [[EMPTY, EMPTY, EMPTY],
-            [EMPTY, EMPTY, EMPTY],
-            [EMPTY, EMPTY, EMPTY]]
+    xCount = sum(row.count(X) for row in board)
+    oCount = sum(row.count(O) for row in board)
+    return xCount == 0 and oCount == 0
 
 
 def player(board):

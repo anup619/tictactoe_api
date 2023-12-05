@@ -1,5 +1,5 @@
 from flask import Flask, request, jsonify, abort
-from tictactoe import minimax,player,X,O,EMPTY,winner,terminal
+from tictactoe import minimax,player,X,O,EMPTY,winner,terminal,check_initial_state
 from errors import bad_request_error, not_found_error, method_not_allowed_error, internal_server_error
 
 app = Flask(__name__)   
@@ -51,16 +51,21 @@ def get_optimal_move():
         if not valid:
             return jsonify(error_response), 400
         
-        isterminated = terminal(data['board'])
-        if isterminated:
-            winner_player = winner(data['board'])
-            if winner_player:
-                result['winner_player'] = winner_player
-            else:
-                result['message'] = 'game ended with a draw'
+        isinitalstate = check_initial_state(data['board'])
+        if isinitalstate:
+            result['next_player'] = X
+            result['optimal_move'] = (0,1)
         else:
-            result['next_player'] = player(data['board'])
-            result['optimal_move'] = minimax(data['board'])
+            isterminated = terminal(data['board'])
+            if isterminated:
+                winner_player = winner(data['board'])
+                if winner_player:
+                    result['winner_player'] = winner_player
+                else:
+                    result['message'] = 'game ended with a draw'
+            else:
+                result['next_player'] = player(data['board'])
+                result['optimal_move'] = minimax(data['board'])
 
         return jsonify(result)
 
