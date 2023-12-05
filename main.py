@@ -77,9 +77,7 @@ def add_security_headers(response):
     return response
 
 
-if __name__ == '__main__':
-    # Register error handlers
-    app.register_error_handler(400, bad_request_error)
-    app.register_error_handler(404, not_found_error)
-    app.register_error_handler(405, method_not_allowed_error)
-    app.register_error_handler(Exception, internal_server_error)
+app.register_error_handler(400, bad_request_error)
+app.register_error_handler(404, not_found_error)
+app.register_error_handler(405, method_not_allowed_error)
+app.register_error_handler(Exception, internal_server_error)
