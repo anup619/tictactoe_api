@@ -19,7 +19,7 @@ def validate_board_data(data):
 
     current_board = data['board']
 
-    if not isinstance(current_board, list) or not all(isinstance(row, list) and len(row) == 3 for row in current_board):
+    if not isinstance(current_board, list) or len(current_board) != 3 or not all(isinstance(row, list) and len(row) == 3 for row in current_board):
         return False, {'error': 'Invalid board format, must be a 2D array with 3 rows and 3 columns'}
 
     allowed_values = {X, O, EMPTY}
@@ -71,25 +71,9 @@ def get_optimal_move():
 @app.after_request
 def add_security_headers(response):
     response.headers['Strict-Transport-Security'] = 'max-age=31536000; includeSubDomains; preload'
-    return response
-
-@app.after_request
-def add_security_headers(response):
     response.headers['Content-Security-Policy'] = "default-src 'self'"
-    return response
-
-@app.after_request
-def add_security_headers(response):
     response.headers['X-Content-Type-Options'] = 'nosniff'
-    return response
-
-@app.after_request
-def add_security_headers(response):
     response.headers['X-Frame-Options'] = 'DENY'
-    return response
-
-@app.after_request
-def add_security_headers(response):
     response.headers['Referrer-Policy'] = 'same-origin'
     return response
 
