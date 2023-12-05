@@ -3,6 +3,7 @@ from tictactoe import minimax,player,X,O,EMPTY,winner,terminal
 from errors import bad_request_error, not_found_error, method_not_allowed_error, internal_server_error
 
 app = Flask(__name__)
+app.config['SERVER_NAME'] = None
 
 @app.route('/')
 def greet():
@@ -66,6 +67,31 @@ def get_optimal_move():
 
     except Exception as e:
         abort(500)  # Internal Server Error
+
+@app.after_request
+def add_security_headers(response):
+    response.headers['Strict-Transport-Security'] = 'max-age=31536000; includeSubDomains; preload'
+    return response
+
+@app.after_request
+def add_security_headers(response):
+    response.headers['Content-Security-Policy'] = "default-src 'self'"
+    return response
+
+@app.after_request
+def add_security_headers(response):
+    response.headers['X-Content-Type-Options'] = 'nosniff'
+    return response
+
+@app.after_request
+def add_security_headers(response):
+    response.headers['X-Frame-Options'] = 'DENY'
+    return response
+
+@app.after_request
+def add_security_headers(response):
+    response.headers['Referrer-Policy'] = 'same-origin'
+    return response
 
 
 if __name__ == '__main__':
