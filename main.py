@@ -1,9 +1,9 @@
 from flask import Flask, request, jsonify, abort
 from tictactoe import minimax,player,X,O,EMPTY,winner,terminal,check_initial_state
 from errors import bad_request_error, not_found_error, method_not_allowed_error, internal_server_error
-
+from flask_cors import CORS
 app = Flask(__name__)   
-
+CORS(app)
 @app.route('/')
 def greet():
     return "Hello From tictactoe AI"
